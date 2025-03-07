@@ -1,0 +1,8 @@
+{
+    "features": [
+      { "icon": "Security", "title": "Advanced Protection", "description": "AI-driven security protects your assets in real-time." },
+      { "icon": "Shield", "title": "Threat Intelligence", "description": "Detect and mitigate cyber threats before they impact you." },
+      { "icon": "VerifiedUser", "title": "Zero Trust Security", "description": "Ensure only authorized users access your systems." }
+    ]
+  }
+  
