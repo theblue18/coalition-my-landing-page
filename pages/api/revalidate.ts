@@ -1,9 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import crypto from "crypto";
-import getRawBody from "raw-body";
 
+import getRawBody from "raw-body";
+/* import crypto from "crypto";
 const WEBHOOK_SECRET = process.env
   .NEXT_PUBLIC_CONTENTFUL_WEBHOOK_SECRET as string;
+*/
 
 export const config = {
   api: {
@@ -15,7 +16,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("🔹 Received Webhook Request:", req.body);
+  
 
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
