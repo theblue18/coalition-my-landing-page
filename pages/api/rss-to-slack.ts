@@ -1,0 +1,58 @@
+import { NextApiRequest, NextApiResponse } from "next";
+import Parser from "rss-parser";
+
+const slackWebhookUrl = process.env.NEXT_PUBLIC_SLACK_WEBHOOK_URL || "http://localhost:3000"; 
+const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== "POST") return res.status(405).json({ error: "Method Not Allowed" });
+
+  try {
+    const parser = new Parser();
+    const feed = await parser.parseURL(`${websiteUrl}/api/rss`);
+
+    if (!feed.items || feed.items.length === 0) {
+      return res.status(200).json({ message: "No new blog posts found." });
+    }
+
+    const latestPost = feed.items[0]; // Get the latest blog post
+
+    const messagePayload = {
+      blocks: [
+        { type: "section", text: { type: "mrkdwn", text: "🆕 *New Blog Published!*" } },
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: `*${latestPost.title}*\n🔗 <${latestPost.link}|Read More>`
+          },
+          accessory: latestPost.enclosure?.url
+            ? { type: "image", image_url: latestPost.enclosure.url, alt_text: "Blog Thumbnail" }
+            : undefined
+        },
+        {
+          type: "actions",
+          elements: [
+            {
+              type: "button",
+              text: { type: "plain_text", text: "Read Blog" },
+              url: latestPost.link,
+              style: "primary"
+            }
+          ]
+        }
+      ]
+    };
+
+    await fetch(slackWebhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(messagePayload)
+    });
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error("Error sending RSS Feed update to Slack:", error);
+    res.status(500).json({ error: "Failed to send Slack message" });
+  }
+}
