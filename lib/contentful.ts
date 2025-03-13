@@ -62,7 +62,7 @@ export async function getHeroData(): Promise<HeroData | null> {
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
   let query = `
     query {
-      blogPostCollection {
+      blogPostCollection (limit: 10, order: publishedDate_DESC) {
         items {
           title
           slug
