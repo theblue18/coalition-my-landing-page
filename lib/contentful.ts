@@ -1,7 +1,5 @@
 import {
   BlogPost,
-  ContentfulResponse,
-  HeroData,
   PageType,
 } from "@/types/contentful";
 import { GraphQLClient } from "graphql-request";
@@ -27,37 +25,6 @@ const client = new GraphQLClient(`${GRAPHQL_API_URL}/${SPACE_ID}`, {
   headers: { Authorization: `Bearer ${ACCESS_TOKEN}` },
 });
 
-export async function getHeroData(): Promise<HeroData | null> {
-  let query = `
-    query {
-      contentModelCollection(limit: 1) {
-        items {
-          title
-          description { json }
-          heroImage { url }
-          ctaText
-          ctaLink
-        }
-      }
-    }
-  `;
-
-  query = query.replace(/\s+/g, " ").trim();
-
-  try {
-    const response = await client.request<ContentfulResponse>(query);
-
-    if (!response?.contentModelCollection?.items?.length) {
-      console.warn("No data found in Contentful.");
-      return null;
-    }
-
-    return response.contentModelCollection.items[0];
-  } catch (error) {
-    console.error("Error fetching hero data from Contentful:", error);
-    return null; 
-  }
-}
 
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
   let query = `

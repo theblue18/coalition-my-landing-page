@@ -4,7 +4,8 @@ import { getAllBlogPosts } from "@/lib/contentful";
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const posts = await getAllBlogPosts();
-  const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL || "https://www.coalitioninc.com";
+  const websiteUrl =
+    process.env.NEXT_PUBLIC_WEBSITE_URL || "https://www.coalitioninc.com";
 
   const feed = new Feed({
     title: "Coalition Blog RSS Feed",
@@ -23,13 +24,12 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
       title: post.title,
       id: `${websiteUrl}/blog/${post.slug}`,
       link: `${websiteUrl}/blog/${post.slug}`,
-      description: "Read more on our website.",
+      description: post.description,
       date: new Date(post.publishedDate),
       author: [{ name: "Coalition Blog Team" }],
     });
   });
 
-  
   res.setHeader("Content-Type", "application/rss+xml");
   res.write(feed.rss2());
   res.end();
@@ -38,5 +38,5 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 };
 
 export default function RssPage() {
-  return null; 
+  return null;
 }

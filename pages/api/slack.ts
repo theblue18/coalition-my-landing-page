@@ -42,7 +42,7 @@ export default async function handler(
           type: "section",
           text: {
             type: "mrkdwn",
-            text: `*${latestPost.title}*\n🔗 <${latestPost.link}|Read More>`,
+            text: `*${latestPost.title}*\n_${latestPost.contentSnippet || "No description available"}_\n\n🔗 <${latestPost.link}|Read More>`,
           },
           accessory: latestPost.enclosure?.url
             ? {
@@ -65,6 +65,7 @@ export default async function handler(
         },
       ],
     };
+    
 
     // Send to Slack
     await fetch(SLACK_WEBHOOK_URL, {
