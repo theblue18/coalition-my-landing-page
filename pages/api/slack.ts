@@ -4,6 +4,9 @@ import Parser from "rss-parser";
 const SLACK_WEBHOOK_URL =
   process.env.NEXT_PUBLIC_SLACK_WEBHOOK_URL || "http://localhost:3000";
 
+  const RSS_URL = process.env.NEXT_PUBLIC_RSS_URL ||
+      "https://coalition-my-landing-page.vercel.app/rss.xml";
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -12,19 +15,16 @@ export default async function handler(
     return res.status(405).json({ error: "Method Not Allowed" });
 
   try {
-    const rssUrl =
-      req.body?.rssUrl ||
-      process.env.NEXT_PUBLIC_RSS_URL ||
-      "https://developer.nvidia.com/rss.xml";
+   
 
-    if (!rssUrl) {
+    if (!RSS_URL) {
       return res
         .status(400)
         .json({ error: "Missing RSS URL. Provide it in request body or env." });
     }
 
     const parser = new Parser();
-    const feed = await parser.parseURL(rssUrl);
+    const feed = await parser.parseURL(RSS_URL);
 
     if (!feed.items || feed.items.length === 0) {
       return res.status(200).json({ message: "No new blog posts found." });

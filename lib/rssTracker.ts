@@ -3,7 +3,7 @@ import path from "path";
 import Parser from "rss-parser";
 
 const CACHE_FILE = path.join(process.cwd(), "rss-cache.json");
-const RSS_URL = process.env.NEXT_PUBLIC_RSS_URL || "https://developer.nvidia.com/rss.xml";
+const RSS_URL = process.env.NEXT_PUBLIC_RSS_URL || "https://coalition-my-landing-page.vercel.app/rss.xml";
 
 /**
  * Fetches the latest RSS post from the feed
