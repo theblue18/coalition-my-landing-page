@@ -1,6 +1,8 @@
 {
     "functions": {
-      "api/check-rss-update": {}
+      "api/check-rss-update": {
+        "maxDuration": 60
+      }
     }
   }
   
