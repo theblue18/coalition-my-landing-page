@@ -11,7 +11,7 @@ export default async function handler(
   try {
     // Revalidate the RSS page
     await res.revalidate("/rss.xml");
-
+   
     return res.status(200).json({ message: "RSS Feed Page Revalidated" });
   } catch (error) {
     console.error("Error revalidating RSS:", error);
