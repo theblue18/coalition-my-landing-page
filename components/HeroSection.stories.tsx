@@ -2,14 +2,30 @@ import { Meta, StoryObj } from "@storybook/react";
 import HeroSection from "./HeroSection";
 import { HeroVariantType, HeroType, PageType } from "@/types/contentful";
 import { fetchUnsplashImage } from "@/lib/unsplash";
+import { withContentful } from 'storybook-addon-contentful-preview';
+import { JSX } from "react";
+const ENTRY_ID = process.env.NEXT_PUBLIC_STORYBOOK_ENTRY_ID;
+const ACCESS_TOKEN = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN;
+const SPACE_ID = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID;
 
 export default {
   title: "Components/HeroSection",
   component: HeroSection,
+  decorators: [withContentful],
   parameters: {
     layout: "fullscreen",
+    contentfulPreview: {
+      spaceId: SPACE_ID,
+      accessToken: ACCESS_TOKEN,
+      entryId: ENTRY_ID,
+    }
   },
 } as Meta<typeof HeroSection>;
+
+const Template = (args: JSX.IntrinsicAttributes & HeroType) => <HeroSection {...args} />;
+
+export const Default2 = Template.bind({});
+
 
 
 async function createHeroMock(heroVariant: HeroVariantType): Promise<HeroType> {

@@ -55,7 +55,7 @@ export async function getHeroData(): Promise<HeroData | null> {
     return response.contentModelCollection.items[0];
   } catch (error) {
     console.error("Error fetching hero data from Contentful:", error);
-    return null; // Trả về null thay vì để lỗi làm crash ứng dụng
+    return null; 
   }
 }
 
