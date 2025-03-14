@@ -6,7 +6,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
 
-  console.log("🔄 Cron job executed at", new Date().toISOString());
+  console.log("Cron job executed at", new Date().toISOString());
 
-  res.status(200).json({ message: "Cron job executed successfully!" });
+  res.status(200).json({ message: "Cron job executed successfully" });
 }
