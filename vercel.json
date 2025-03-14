@@ -1,8 +1,7 @@
 {
     "functions": {
       "api/check-rss-update": {
-        "runtime": "nodejs18.x",
-        "schedule": "* * * * *"
+        "runtime": "nodejs18.x"
       }
     }
   }
